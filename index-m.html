@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="./node_modules/angular/angular.min.js"></script>
+		<script src="./node_modules/angular-animate/angular-animate.min.js"></script>
+		<script src="./node_modules/angular-aria/angular-aria.min.js"></script>
+		<script src="./node_modules/angular-messages/angular-messages.min.js"></script>
+		<script src="./node_modules/angular-material/angular-material.min.js"></script>
+	</head>
+	<body>
+
+		<md-content>
+		<div ng-app="myApp" ng-controller="siteCtrl">
+ <md-list flex>
+ 				<md-list-item ng-repeat="s in names" ng-click = "getfile(s)">
+					{{ s }}
+				</md-list-item>
+      </md-list>
+
+
+		
+			<md-button ng-click="pack()" class="md-raised md-primary">pack</md-button>
+
+		</div>
+</md-content>
+		<script>
+var app = angular.module('myApp', ['ngMaterial']);
+
+app.controller('siteCtrl', function($scope, $http) {
+	$http({
+		method: 'GET',
+		url: 'http://127.0.0.1:8888/list'
+	}).then(function successCallback(response) {
+		console.log(response.data);
+		$scope.names = response.data;
+	}, function errorCallback(response) {
+		// 请求失败执行代码
+	});
+
+	$scope.pack = function(){
+		 window.open('http://127.0.0.1:8888/pack');
+	};
+	$scope.getfile = function(s){
+		 window.open('http://127.0.0.1:8888/files/'+s);
+	};
+
+});
+		</script>
+
+	</body>
+</html>
