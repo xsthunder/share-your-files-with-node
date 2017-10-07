@@ -1,4 +1,4 @@
-# npm-sample
+# <center> npm-sample
 ## install envirment
 1. install [git](https://git-scm.com/)
 2. install [nodejs](http://nodejs.cn/)
