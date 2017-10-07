@@ -1,12 +1,28 @@
+# install envirment
+1. install [git](https://git-scm.com/)
+2. install [nodejs](http://nodejs.cn/)
+
+# install and run this sample
+## run following command in bash
+```bash
+git clone https://gitee.com/xsthunder/npm-sample
+cd npm-sample
+npm install #install dependencies
+```
+see cnpm in [references](#references) if 'npm install' failed
+## run sample
+1. npm test
+2. open in broswer [http://127.0.0.1:8888/](http://nodejs.cn/)
+3. open material version in broswer [http://127.0.0.1:8888/index-m.html](http://nodejs.cn/)
+
 # software required
 1. nodejs version >= 8.0
 2. mordern browser(firefox quantum suggested)
-
-# version control system
-git
+3. git
 
 # developing kit 
-vim
+1. vim
+2. notepad++
 
 # suggested kit
 1. webstorm
