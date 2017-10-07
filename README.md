@@ -10,9 +10,14 @@ git clone https://gitee.com/xsthunder/npm-sample
 cd npm-sample
 npm install #install dependencies
 ```
-see cnpm in [references](#references) if 'npm install' failed
+see cnpm in [references](#references) if `npm install` failed
 ### run sample
-1. npm test
+1. following command in bash
+
+```bash
+npm test # note that you need swift to sample's directory
+```
+
 2. open in broswer [http://127.0.0.1:8888/](http://nodejs.cn/)
 3. open material version in broswer [http://127.0.0.1:8888/index-m.html](http://nodejs.cn/)
 
