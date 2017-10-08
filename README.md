@@ -1,7 +1,7 @@
 # <center> npm-sample
 * simple instance of express, angular ans angular-material. manage your files
 # demos
-** access allowed only in ecust
+**access allowed only in ecust**
 * [material](http://ok.lovecust.com:8888)
 * [tradition](http://ok.lovecust.com:8888)
 ## install envirment
