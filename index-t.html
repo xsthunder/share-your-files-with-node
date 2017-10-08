@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="./node_modules/angular/angular.min.js"></script>
+	</head>
+	<body>
+
+		<div ng-app="myApp" ng-controller="siteCtrl">
+
+			<ul>
+				<li ng-repeat="s in names" ng-click = "getfile(s)">
+					{{ s }}
+				</li>
+			</ul>
+			<button ng-click="pack()">pack</button>
+
+		</div>
+
+		<script>
+var app = angular.module('myApp', []);
+
+app.controller('siteCtrl', function($scope, $http) {
+	$http({
+		method: 'GET',
+		url: 'http://127.0.0.1:8888/list'
+	}).then(function successCallback(response) {
+		console.log(response.data);
+		$scope.names = response.data;
+	}, function errorCallback(response) {
+		// 请求失败执行代码
+	});
+
+	$scope.pack = function(){
+		 window.open('http://127.0.0.1:8888/pack');
+	};
+	$scope.getfile = function(s){
+		 window.open('http://127.0.0.1:8888/files/'+s);
+	};
+
+});
+		</script>
+
+	</body>
+</html>
