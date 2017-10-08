@@ -1,8 +1,8 @@
 # <center> npm-sample
-* simple instance of express, angular ans angular-material. manage your files
+* simple instance of express, angular ans angular-material. manage your files and preview text.
 # demos
 **access allowed only in ecust**
-* [material_version](http://ok.lovecust.com:8888)
+* [material version](http://ok.lovecust.com:8888)
 * [tradition version](http://ok.lovecust.com:8888/index-t.html)
 ## install envirment
 1. install [git](https://git-scm.com/)
@@ -23,7 +23,7 @@ see cnpm in [references](#references) if `npm install` failed
 npm test # note that you need swift to sample's directory
 ```
 
-2. open tradition version in broswer [http://127.0.0.1:8888/]((http://127.0.0.1/index-t.html)
+2. open tradition version in broswer [http://127.0.0.1:8888/](http://127.0.0.1/index-t.html)
 3. open material version in broswer [http://127.0.0.1:8888/index-m.html](http://127.0.0.1:8888/index-t.html)
 
 ## software required
@@ -50,6 +50,5 @@ see package.json
 6. [angular tutorial for beginner in Chinese](http://www.runoob.com/angularjs/angularjs-tutorial.html)
 5. [angular-material](https://material.angularjs.org/latest/)
 ## future
-1. add upload, how? see [material-ui-upload](https://www.npmjs.com/package/material-ui-upload)
-2. preview video
-3. preview text
+1. add upload fuction, how? see [material-ui-upload](https://www.npmjs.com/package/material-ui-upload)
+2. preview video and pictures
