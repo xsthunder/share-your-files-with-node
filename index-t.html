@@ -21,9 +21,10 @@
 var app = angular.module('myApp', []);
 
 app.controller('siteCtrl', function($scope, $http) {
+	var host = window.location.host;
 	$http({
 		method: 'GET',
-		url: 'http://127.0.0.1:8888/list'
+		url: 'http://'+host+'/list'
 	}).then(function successCallback(response) {
 		console.log(response.data);
 		$scope.names = response.data;
@@ -32,10 +33,10 @@ app.controller('siteCtrl', function($scope, $http) {
 	});
 
 	$scope.pack = function(){
-		 window.open('http://127.0.0.1:8888/pack');
+		 window.open('http://'+host+'/pack');
 	};
 	$scope.getfile = function(s){
-		 window.open('http://127.0.0.1:8888/files/'+s);
+		 window.open('http://'+host+'/files/'+s);
 	};
 
 });

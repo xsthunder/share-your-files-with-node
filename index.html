@@ -32,9 +32,12 @@
 var app = angular.module('myApp', ['ngMaterial']);
 
 app.controller('siteCtrl', function($scope, $http,$mdDialog) {
+	var host = window.location.host;
+	var port = "";
+	var log = console.log
 	$http({
 		method: 'GET',
-		url: 'http://127.0.0.1:8888/list'
+		url: 'http://'+host+'/list'
 	}).then(function successCallback(response) {
 		console.log(response.data);
 		$scope.names = response.data;
@@ -47,7 +50,7 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 	$scope.getfile =function(filename){
 		$http({
 			method: 'POST',
-			url: 'http://127.0.0.1:8888/getfile',
+			url: 'http://'+host+'/getfile',
 			headers:{'Content-Type':'application/x-www-form-urlencoded'},
 			data:"filename="+filename
 		}).then(function successCallback(response) {
@@ -71,11 +74,11 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 	};
 
 	$scope.pack = function(){
-		window.open('http://127.0.0.1:8888/pack');
+		window.open('http://'+host+'/pack');
 	};
 
 	$scope.download = function(s){
-		window.open('http://127.0.0.1:8888/files/'+s);
+		window.open('http://'+host+'/files/'+s);
 	};
 
 });
