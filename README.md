@@ -1,5 +1,8 @@
 # <center> npm-sample
 * simple instance of express, angular ans angular-material. manage your files
+# demos
+* [EUCST](http://ok.lovecust.com:8888)
+* [OTHER](http://m.lovecust.com:8888) maybe slow
 ## install envirment
 1. install [git](https://git-scm.com/)
 2. install [nodejs](http://nodejs.cn/)
