@@ -14,12 +14,15 @@
 		<div ng-app="myApp" ng-controller="siteCtrl">
 			<md-content layout-padding>
 
-				<md-list flex>
+				<md-list flex ng-show="show">
 					<md-list-item ng-repeat="s in names" ng-click = "getfile(s)">
 						{{ s }}
+						<md-button ng-click="download(s)" class="md-raised md-primary">download</md-button>
 					</md-list-item>
 				</md-list>
 
+				<md-button ng-click="flip()"class="md-raised md-warn">{{show?"hide":"show"}}
+				</md-button>
 				<md-button ng-click="pack()" class="md-raised md-primary">pack</md-button>
 
 			</md-content>
@@ -38,11 +41,28 @@ app.controller('siteCtrl', function($scope, $http) {
 	}, function errorCallback(response) {
 		// 请求失败执行代码
 	});
+	$scope.show = true;
+	$scope.flip = function(){ $scope.show=!$scope.show; };
+
+	$scope.getfile =function(filename){
+		$http({
+			method: 'POST',
+			url: 'http://127.0.0.1:8888/getfile',
+			headers:{'Content-Type':'application/x-www-form-urlencoded'},
+			data:"filename="+filename
+		}).then(function successCallback(response) {
+			console.log(response.data);
+//			$scope.names = response.data;
+		}, function errorCallback(response) {
+			// 请求失败执行代码
+		});
+	};
 
 	$scope.pack = function(){
 		window.open('http://127.0.0.1:8888/pack');
 	};
-	$scope.getfile = function(s){
+
+	$scope.download = function(s){
 		window.open('http://127.0.0.1:8888/files/'+s);
 	};
 

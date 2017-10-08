@@ -1,4 +1,5 @@
 # <center> npm-sample
+* simple instance of express, angular ans angular-material. manage your files
 ## install envirment
 1. install [git](https://git-scm.com/)
 2. install [nodejs](http://nodejs.cn/)
@@ -42,5 +43,9 @@ see package.json
 2. [npmjs](http://npmjs.com/)
 3. [expressjs](http://www.expressjs.com.cn/)
 4. [angular](https://angularjs.org/)
-6. [angular for beginner in Chinese](http://www.runoob.com/angularjs/angularjs-tutorial.html)
+6. [angular tutorial for beginner in Chinese](http://www.runoob.com/angularjs/angularjs-tutorial.html)
 5. [angular-material](https://material.angularjs.org/latest/)
+## future
+1. add upload, how? see [material-ui-upload](https://www.npmjs.com/package/material-ui-upload)
+2. preview video
+3. preview text

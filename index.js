@@ -20,6 +20,7 @@ let getfile=()=>{
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+//log(multer);
 //app.use(multer()); // for parsing multipart/form-data
 app.get('/pack',(req,res)=>{
 	let output = fs.createWriteStream(path);
@@ -45,7 +46,7 @@ app.get('/list',(req,res)=>{
 app.post('/getfile',(req,res)=>{
 	//Content-Type: application/x-www-form-urlencoded
 	res.setHeader('Content-Disposition',contentDisposition(filename));
-	log(req.body.filename);
+	log(req.body);
 	if(!req.body.filename){
 		res.status(400).send('required field filename');
 		return;
@@ -53,7 +54,6 @@ app.post('/getfile',(req,res)=>{
 	res.sendFile(__dirname+"\\files\\"+req.body.filename, {
 		filename:req.body.filename
 	});
-
 });
 app.use(express.static(__dirname));
 app.listen(8888);
