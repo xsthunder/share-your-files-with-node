@@ -119,7 +119,7 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 			data:"filename="+(dir?"":(curpath +'/'))+filename
 		}).then(function successCallback(response) {
 			//console.log(response.data);
-			if(response.data.length){
+			if(response.data.length && typeof(response.data) !== "string"){
 				if(!dir)curpath = (curpath +'/')+  filename  ; 
 				$scope.names = response.data;
 				$scope.id = 0;

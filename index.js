@@ -1,5 +1,5 @@
 console.log("hello nodejs");
-const filepath = "./files";
+const filepath = __dirname+"/files";
 
 const express = require('express');
 const contentDisposition = require('content-disposition');
