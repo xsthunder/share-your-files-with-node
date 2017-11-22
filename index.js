@@ -1,4 +1,6 @@
 console.log("hello nodejs");
+const filepath = "./files";
+
 const express = require('express');
 const contentDisposition = require('content-disposition');
 const archiver = require('archiver');
@@ -38,7 +40,7 @@ app.get('/pack',(req,res)=>{
 	arch.finalize();
 });
 app.get('/list',(req,res)=>{
-	fs.readdir('files/',(err,files)=>{
+	fs.readdir(filepath,(err,files)=>{
 		if(err){res.status(400).send(err);return;}
 		res.send(files);
 	});
@@ -51,9 +53,18 @@ app.post('/getfile',(req,res)=>{
 		res.status(400).send('required field filename');
 		return;
 	}
-	res.sendFile(__dirname+"\\files\\"+req.body.filename, {
-		filename:req.body.filename
+	console.log(filepath + req.body.filename +'/');
+	fs.readdir( filepath + req.body.filename +'/', (err,files)=>{
+		if(err){
+			res.sendFile(filepath+req.body.filename, {
+				filename:req.body.filename
+			});
+		}
+		else {
+			res.send(files);
+		}
 	});
 });
 app.use(express.static(__dirname));
+app.use(express.static(__dirname+'/files/'));
 app.listen(8888);

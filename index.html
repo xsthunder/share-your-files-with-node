@@ -8,22 +8,34 @@
 		<script src="./node_modules/angular-animate/angular-animate.min.js"></script>
 		<script src="./node_modules/angular-aria/angular-aria.min.js"></script>
 		<script src="./node_modules/angular-messages/angular-messages.min.js"></script>
+		<!-- <script src="./node_modules/angular-imagesloaded/dist/angular-imagesloaded.min.js"></script> -->
 	</head>
 	<body>
+		<div ng-app="myApp" ng-controller="siteCtrl" >
+			<md-content layout-padding >
+				<div layout="row">
+					<div ng-click="inc()" ng-show="!showList" flex style="background-color:red" class="md-display-2">inc</div>
+					<div  ng-click="dec()" ng-show="!showList" flex style="background-color:blue" class="md-display-2">dec</div>
+				</div>
+				<md-content layout="column" >
+					<md-content layout="row">
+						<md-button ng-click="img()"class="md-raised md-warn">{{showList?"hide":"show"}} </md-button>
+					<md-button ng-click="upper()" class="md-raised md-primary">upper</md-button>
+					</md-content>
 
-		<div ng-app="myApp" ng-controller="siteCtrl">
-			<md-content layout-padding>
-
-				<md-list flex ng-show="show">
-					<md-list-item ng-repeat="s in names" ng-click = "getfile(s)">
-						{{ s }}
-						<md-button ng-click="download(s)" class="md-raised md-primary">download</md-button>
-					</md-list-item>
-				</md-list>
-
-				<md-button ng-click="flip()"class="md-raised md-warn">{{show?"hide":"show"}}
-				</md-button>
-				<md-button ng-click="pack()" class="md-raised md-primary">pack</md-button>
+					<md-list flex  ng-show="showList">
+						<md-list-item ng-repeat="s in names" ng-click = "getfile(s)">
+							{{ s }}
+							<md-button ng-click="download(s)" class="md-raised md-primary">download</md-button>
+						</md-list-item>
+					</md-list>
+					</md-content>
+					<img ng-click="inc()" ng-src="{{getsrc(names[id])}}" alt="img here" style="width:100%;height:auto" ng-if="!showList" ><img>
+					<div layout="row">
+						<div ng-click="inc()" ng-show="!showList" flex style="background-color:red" class="md-display-2">inc</div>
+						<div  ng-click="dec()" ng-show="!showList" flex style="background-color:blue" class="md-display-2">dec</div>
+					</div>
+				</md-content>
 
 			</md-content>
 		</div>
@@ -35,30 +47,23 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 	var host = window.location.host;
 	var port = "";
 	var log = console.log
-	$http({
-		method: 'GET',
-		url: 'http://'+host+'/list'
-	}).then(function successCallback(response) {
-		console.log(response.data);
-		$scope.names = response.data;
-	}, function errorCallback(response) {
-		// 请求失败执行代码
-	});
-	$scope.show = true;
-	$scope.flip = function(){ $scope.show=!$scope.show; };
-
-	$scope.getfile =function(filename){
-		$http({
-			method: 'POST',
-			url: 'http://'+host+'/getfile',
-			headers:{'Content-Type':'application/x-www-form-urlencoded'},
-			data:"filename="+filename
-		}).then(function successCallback(response) {
-			console.log(response.data);
+	$scope.showList = true;
+	$scope.imgif = true;
+	$scope.id = 0;
+	$scope.showPic = true;
+	$scope.img = function(){
+		$scope.showList = !$scope.showList;
+	}
+	$scope.imgdone = function(instance){
+		$scope.showPic = true;
+		console.log($scope.showPic);
+		console.log("img done",instance);
+	}
+	var info = function (content){
 			function showAlert() {
 				alert = $mdDialog.alert({
 					title: 'Attention',
-					textContent: response.data,
+					textContent: content,
 					ok: 'Close'
 				});
 				$mdDialog
@@ -67,20 +72,89 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 						alert = undefined;
 					});
 			};
-			showAlert();
+		showAlert();
+	}
+	$scope.inc = function(){
+		if($scope.id >= $scope.names.length - 1){
+			info("exceed files length");
+			return;
+		}
+		else $scope.id ++;
+		scrollTo(0,0);
+	}
+	$scope.dec= function(){
+		if($scope.id <= 0){
+			info("exceed files length");
+			return;
+		}
+		else $scope.id --;
+		scrollTo(0,0);
+	}
+	$scope.getsrc = function(s){
+		//console.log(('http://'+host+'/files/' + curpath +'/'+s));
+		return ('http://'+host+'/' + curpath +(curpath?'/':"")+s);
+	}
+	var list = function(){
+		$http({
+			method: 'GET',
+			url: 'http://'+host+'/list'
+		}).then(function successCallback(response) {
+			console.log(response.data);
+			$scope.names = response.data;
+		}, function errorCallback(response) {
+			// 请求失败执行代码
+		});
+	}
+	list();
+	$scope.show = true;
+	$scope.flip = function(){ $scope.show=!$scope.show; };
+	var curpath = ""; 
+	var pos;
+	$scope.getfile =function(filename,dir){
+		//console.log(curpath+'/'+filename);
+		$http({
+			method: 'POST',
+			url: 'http://'+host+'/getfile',
+			headers:{'Content-Type':'application/x-www-form-urlencoded'},
+			data:"filename="+(dir?"":(curpath +'/'))+filename
+		}).then(function successCallback(response) {
+			//console.log(response.data);
+			if(response.data.length){
+				if(!dir)curpath = (curpath +'/')+  filename  ; 
+				$scope.names = response.data;
+				$scope.id = 0;
+				return;
+			}
+			info(response.data);
 		}, function errorCallback(response) {
 			// 请求失败执行代码
 		});
 	};
 
+	$scope.upper = function(){
+		pos = curpath.lastIndexOf('/');
+		console.log(curpath,pos);
+		if(pos<0){
+			return;
+		}
+		if(pos==0){
+			curpath="";
+		}
+		else if(pos>0){
+			curpath = curpath.substring(0,pos);
+		}
+		console.log(curpath);
+		if(curpath)$scope.getfile(curpath,"dir");
+		else list();
+	}
+	
 	$scope.pack = function(){
 		window.open('http://'+host+'/pack');
 	};
 
 	$scope.download = function(s){
-		window.open('http://'+host+'/files/'+s);
+		window.open('http://'+host+'/' + curpath +'/'+s);
 	};
-
 });
 		</script>
 
