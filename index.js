@@ -81,5 +81,5 @@ app.post('/getfile',(req,res)=>{
 	});
 });
 app.use(express.static(__dirname));
-app.use(express.static(__dirname+'/files/'));
+app.use(express.static(filepath));
 app.listen(8888);
