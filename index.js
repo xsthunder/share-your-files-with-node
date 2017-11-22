@@ -24,6 +24,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 //log(multer);
 //app.use(multer()); // for parsing multipart/form-data
+function getClientIp(req) {
+	return req.headers['x-forwarded-for'] ||
+		req.connection.remoteAddress ||
+		req.socket.remoteAddress ||
+		req.connection.socket.remoteAddress;
+};
+app.use((req,res,next)=>{
+	let s = (getClientIp(req));
+	let ip = s.substr(s.lastIndexOf(':')+1);
+	console.log(ip);
+	if(ip == "127.0.0.1" || ip == "192.168.3.7"){
+		next();
+	}
+	else res.send("haha");
+});
 app.get('/pack',(req,res)=>{
 	let output = fs.createWriteStream(path);
 	output.on('close',()=>{
@@ -33,7 +48,7 @@ app.get('/pack',(req,res)=>{
 	output.on('error',(err)=>{
 		res.status(500).send(err);
 	});
-	
+
 	let arch = archiver('zip',{zilb:{level:9}});
 	arch.pipe(output);
 	arch.directory('files/',false);
