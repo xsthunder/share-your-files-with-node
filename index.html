@@ -29,7 +29,7 @@
 							<span ng-click = "getfile(s)">{{ s }}</span>
 							<md-button ng-click="download(s)" class="md-raised md-primary">download</md-button>
 							<div ng-if="s.match('.mp3').length>0">
-					<audio controls ng-src="{{getsrc(s)}}">
+					<audio pre-load="none" controls ng-src="{{getsrc(s)}}">
 						audio tag is not supported
 						</audio>
 					</div>
