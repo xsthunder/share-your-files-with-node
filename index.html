@@ -19,14 +19,20 @@
 				</div>
 				<md-content layout="column" >
 					<md-content layout="row">
-						<md-button ng-click="img()"class="md-raised md-warn">{{showList?"hide":"show"}} </md-button>
+						<md-button ng-click="img()"class="md-raised md-warn">{{showList?"img":"hide"}} </md-button>
+						<md-button  ng-click="mp3()"class="md-raised md-warn">{{showList?"mp3":"hide"}} </md-button>
 					<md-button ng-click="upper()" class="md-raised md-primary">upper</md-button>
 					</md-content>
 
 					<md-list flex  ng-show="showList">
-						<md-list-item ng-repeat="s in names" ng-click = "getfile(s)">
-							{{ s }}
+						<md-list-item ng-repeat="s in names" >
+							<span ng-click = "getfile(s)">{{ s }}</span>
 							<md-button ng-click="download(s)" class="md-raised md-primary">download</md-button>
+							<div ng-if="s.match('.mp3').length>0">
+					<audio controls ng-src="{{getsrc(s)}}">
+						audio tag is not supported
+						</audio>
+					</div>
 						</md-list-item>
 					</md-list>
 					</md-content>
@@ -110,6 +116,34 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 	$scope.flip = function(){ $scope.show=!$scope.show; };
 	var curpath = ""; 
 	var pos;
+	let now = false;
+	$scope.mp3 = function(){
+		if(!now){
+			au = document.getElementsByTagName('audio');
+			function rec(cnt){
+				//console.log(cnt);
+				if(cnt >= au.length)return;
+				au[cnt].onended = ()=>{
+					au[cnt].onended = null;
+					rec(cnt+1);
+				};
+				au[cnt].play();
+			};
+			rec(0);
+		}
+		else {
+			au = document.getElementsByTagName('audio');
+			au.forEach = (cb)=>{
+				for(let i = 0;i<au.length;i++){
+					cb(au[i]);
+				}
+			}
+			au.forEach( (o)=>{
+				o.pause();
+			});
+		}
+		now = !now;
+	};
 	$scope.getfile =function(filename,dir){
 		//console.log(curpath+'/'+filename);
 		$http({
@@ -122,6 +156,7 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 			if(response.data.length && typeof(response.data) !== "string"){
 				if(!dir)curpath = (curpath +'/')+  filename  ; 
 				$scope.names = response.data;
+				console.log(response.data);
 				$scope.id = 0;
 				return;
 			}
@@ -147,7 +182,7 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 		if(curpath)$scope.getfile(curpath,"dir");
 		else list();
 	}
-	
+
 	$scope.pack = function(){
 		window.open('http://'+host+'/pack');
 	};
