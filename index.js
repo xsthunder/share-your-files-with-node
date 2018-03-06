@@ -34,10 +34,10 @@ app.use((req,res,next)=>{
 	let s = (getClientIp(req));
 	let ip = s.substr(s.lastIndexOf(':')+1);
 	console.log(ip);
-	if(ip == "127.0.0.1" || ip == "192.168.3.7"){
-		next();
-	}
-	else res.send("haha");
+//	if(ip == "127.0.0.1" || ip == "192.168.3.7"){
+//		next();
+//	}
+//	else res.send("haha");
 });
 app.get('/pack',(req,res)=>{
 	let output = fs.createWriteStream(path);
