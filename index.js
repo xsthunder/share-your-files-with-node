@@ -1,5 +1,6 @@
 console.log("hello nodejs");
 const filepath = __dirname+"/files";
+const port = 5000
 
 const express = require('express');
 const contentDisposition = require('content-disposition');
@@ -33,7 +34,8 @@ function getClientIp(req) {
 app.use((req,res,next)=>{
 	let s = (getClientIp(req));
 	let ip = s.substr(s.lastIndexOf(':')+1);
-	console.log(ip);
+	console.log(req);
+    next()
 //	if(ip == "127.0.0.1" || ip == "192.168.3.7"){
 //		next();
 //	}
@@ -82,4 +84,5 @@ app.post('/getfile',(req,res)=>{
 });
 app.use(express.static(__dirname));
 app.use(express.static(filepath));
-app.listen(8888);
+app.listen(port);
+console.log(`app listen on ${port}`)
