@@ -1,5 +1,6 @@
 console.log("hello nodejs");
-const filepath = __dirname+"/files";
+//const filepath = __dirname+"/files";
+const filepath = "g:/"
 const port = 5000
 
 const express = require('express');
@@ -34,12 +35,12 @@ function getClientIp(req) {
 app.use((req,res,next)=>{
 	let s = (getClientIp(req));
 	let ip = s.substr(s.lastIndexOf(':')+1);
-	console.log(req);
-    next()
-//	if(ip == "127.0.0.1" || ip == "192.168.3.7"){
-//		next();
-//	}
-//	else res.send("haha");
+	console.log(s, ip);
+    // next()
+	if(s == '::1' || ip == "127.0.0.1" || ip == "192.168.1.5" || ip == "192.168.1.6" || ip == "192.168.1.7"|| ip == "192.168.1.103"){
+		next();
+	}
+	else res.send("haha");
 });
 app.get('/pack',(req,res)=>{
 	let output = fs.createWriteStream(path);

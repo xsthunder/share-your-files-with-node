@@ -26,7 +26,7 @@
 
 					<md-list flex  ng-show="showList">
 						<md-list-item ng-repeat="s in names" >
-							<span ng-click = "getfile(s)">{{ s }}</span>
+							<a ng-click = "s.match('.txt') && getfile(s)" ng-href="{{getsrc(s)}}">{{ s }}</a>
 							<div flex layout="row" layout-align="end end">
 							<div ng-if="s.match('.mp3').length>0">
 								<audio preload="none" controls ng-src="{{getsrc(s)}}"> audio tag is not supported </audio>
