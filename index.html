@@ -12,35 +12,48 @@
 	</head>
 	<body>
 		<div ng-app="myApp" ng-controller="siteCtrl" >
-			<md-content layout-padding >
-				<div layout="row">
-					<div ng-click="inc()" ng-show="!showList" flex style="background-color:red" class="md-display-2">inc</div>
-					<div  ng-click="dec()" ng-show="!showList" flex style="background-color:blue" class="md-display-2">dec</div>
+			<md-content layout-padding>
+				<div layout="row" ng-show="!showList">
+					<div ng-click="offsetId(1)" flex style="background-color:red" class="md-display-2">inc</div>
+					<md-button ng-click="offsetId(10)" class="md-raised md-primary">inc 10</md-button>
+					<input ng-model="id" style="width: 30px">
+					<span class="md-display-2">
+						/{{names.length}}
+					</span>
+					<md-button ng-click="offsetId(-10)" class="md-raised">dec 10</md-button>
+					<div ng-click="offsetId(-1)" flex style="background-color:blue" class="md-display-2">dec</div>
 				</div>
-				<md-content layout="column" >
+				<md-content layout="column">
 					<md-content layout="row">
 						<md-button ng-click="img()"class="md-raised md-warn">{{showList?"img":"hide"}} </md-button>
-						<md-button  ng-click="mp3()"class="md-raised md-warn">{{showList?"mp3":"hide"}} </md-button>
+						<!-- <md-button  ng-click="mp3()"class="md-raised md-warn">{{showList?"mp3":"hide"}} </md-button> -->
 					<md-button ng-click="upper()" class="md-raised md-primary">upper</md-button>
 					</md-content>
 
 					<md-list flex  ng-show="showList">
 						<md-list-item ng-repeat="s in names" >
-							<a ng-click = "s.match('.txt') && getfile(s)" ng-href="{{getsrc(s)}}">{{ s }}</a>
+							<a ng-show="s.match('\\.').length>0"  target="_blank" ng-href="{{getsrc(s)}}">{{ s }}</a>
+							<span ng-hide="s.match('\\.').length>0" ng-click="getfile(s)">{{ s }}</span>
 							<div flex layout="row" layout-align="end end">
 							<div ng-if="s.match('.mp3').length>0">
 								<audio preload="none" controls ng-src="{{getsrc(s)}}"> audio tag is not supported </audio>
 							</div>
 							<md-button ng-click="download(s)" ng-show="s.match('\\.').length>0" class="md-raised md-primary">download</md-button>
-							<md-button ng-hide="s.match('\\.').length>0"ng-click="getfile(s)" class="md-raised md-primary">enter folder</md-button>
+							<md-button ng-hide="s.match('\\.').length>0" ng-click="getfile(s)" class="md-raised md-primary">enter folder</md-button>
 					</div>
 						</md-list-item>
 					</md-list>
 					</md-content>
 					<img ng-click="inc()" ng-src="{{getsrc(names[id])}}" alt="img here" style="width:100%;height:auto" ng-if="!showList" ><img>
-					<div layout="row">
-						<div ng-click="inc()" ng-show="!showList" flex style="background-color:red" class="md-display-2">inc</div>
-						<div  ng-click="dec()" ng-show="!showList" flex style="background-color:blue" class="md-display-2">dec</div>
+					<div layout="row" ng-show="!showList">
+						<div ng-click="offsetId(1)"  flex style="background-color:red" class="md-display-2">inc</div>
+						<md-button ng-click="offsetId(10)" class="md-raised md-primary">inc 10</md-button>
+						<input ng-model="id" style="width: 30px">
+						<span class="md-display-2">
+							/{{names.length}}
+						</span>
+						<md-button ng-click="offsetId(-10)" class="md-raised">dec 10</md-button>
+						<div  ng-click="offsetId(-1)" flex style="background-color:blue" class="md-display-2">dec</div>
 					</div>
 				</md-content>
 
@@ -81,21 +94,14 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 			};
 		showAlert();
 	}
-	$scope.inc = function(){
-		if($scope.id >= $scope.names.length - 1){
-			info("exceed files length");
-			return;
+	$scope.offsetId = function(num){
+		var nxtid = $scope.id 
+		nxtid += num;
+		if( 0 <= nxtid &&  nxtid < $scope.names.length){
+			$scope.id = nxtid;
+			scrollTo(0,0);
 		}
-		else $scope.id ++;
-		scrollTo(0,0);
-	}
-	$scope.dec= function(){
-		if($scope.id <= 0){
-			info("exceed files length");
-			return;
-		}
-		else $scope.id --;
-		scrollTo(0,0);
+		else info("exceed files length");
 	}
 	$scope.getsrc = function(s){
 		//console.log(('http://'+host+'/files/' + curpath +'/'+s));
@@ -118,33 +124,6 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 	var curpath = ""; 
 	var pos;
 	let now = false;
-	$scope.mp3 = function(){
-		if(!now){
-			au = document.getElementsByTagName('audio');
-			function rec(cnt){
-				//console.log(cnt);
-				if(cnt >= au.length)return;
-				au[cnt].onended = ()=>{
-					au[cnt].onended = null;
-					rec(cnt+1);
-				};
-				au[cnt].play();
-			};
-			rec(0);
-		}
-		else {
-			au = document.getElementsByTagName('audio');
-			au.forEach = (cb)=>{
-				for(let i = 0;i<au.length;i++){
-					cb(au[i]);
-				}
-			}
-			au.forEach( (o)=>{
-				o.pause();
-			});
-		}
-		now = !now;
-	};
 	$scope.getfile =function(filename,dir){
 		//console.log(curpath+'/'+filename);
 		$http({
