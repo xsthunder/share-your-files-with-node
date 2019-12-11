@@ -103,10 +103,14 @@ export default {
     this.dirpath = getUrlParams().dirpath
     this.pageInput = location.hash?location.hash.slice(1):"0"
     this.pageInput = this.pageInput?this.pageInput:'0'
-    this.startPage = Number(this.pageInput)
     axios.post('/api/getfile', {
       filename: this.dirpath
-    }).then((res)=>this.files = res.data)
+    }).then((res)=>{
+      this.files = res.data
+      setTimeout(()=>{
+        this.startPage = Number(this.pageInput)// in next vue tick
+      }, 500)
+    })
   }
 }
 </script>
