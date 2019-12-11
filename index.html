@@ -22,6 +22,7 @@
 					</span>
 					<md-button ng-click="offsetId(-10)" class="md-raised">dec 10</md-button>
 					<div ng-click="offsetId(-1)" flex style="background-color:blue" class="md-display-2">dec</div>
+					<a target="_blank" ng-href="http://192.168.1.6:8080/?dirpath={{getcurpath()}}">open in manga viewer</a>
 				</div>
 				<md-content layout="column">
 					<md-content layout="row">
@@ -122,6 +123,9 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 	$scope.show = true;
 	$scope.flip = function(){ $scope.show=!$scope.show; };
 	var curpath = ""; 
+	$scope.getcurpath = function(){
+		return curpath
+	}
 	var pos;
 	let now = false;
 	$scope.getfile =function(filename,dir){
