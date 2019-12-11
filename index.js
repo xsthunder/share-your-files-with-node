@@ -94,11 +94,13 @@ app.post('/getfile', cache(5 * 60)/*5 minute*/, (req, res) => {
 		res.status(400).send('required field filename');
 		return;
 	}
-	fs.readdir( filepath + req.body.filename +'/', (err,files)=>{
+	let path  = filepath + req.body.filename +'/'
+	fs.readdir( path, (err,files)=>{
 		if(err){
 			// res.sendFile(filepath+req.body.filename, {
 			// 	filename:req.body.filename
 			// });
+			// console.log('err on readdir', err, path)
 			res.send('reading file content is disabled')
 		}
 		else {
