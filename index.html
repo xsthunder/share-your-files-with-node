@@ -66,8 +66,13 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 		//console.log(('http://'+host+'/files/' + curpath +'/'+s));
 		return ('http://'+host+'/' + curpath +(curpath?'/':"")+s);
 	}
+	function testVideoLink(x){
+		x = x.toLowerCase()
+		let res = x.match('\\.(mp4|mkv)')
+		return (res&&res.length>0)
+	}
 	function setLinkTextArea(){
-		$scope.allsrclink = $scope.names.filter((x)=>(x.match('\\.')&&x.match('\\.').length>0)).map($scope.getsrc).join('\n')
+		$scope.allsrclink = $scope.names.filter(testVideoLink).map($scope.getsrc).join('\n')
 	}
 	$scope.selectLinkText = function(){
 		var txtarea = document.getElementById("mytextarea");
