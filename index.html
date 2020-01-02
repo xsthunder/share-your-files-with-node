@@ -14,6 +14,7 @@
 		<div ng-app="myApp" ng-controller="siteCtrl" >
 			<md-content layout-padding>
 				<md-content layout="column">
+
 					<md-content layout="row">
 						<md-button ng-click="upper()" class="md-raised md-primary">upper</md-button>
 					</md-content>
@@ -33,6 +34,9 @@
 						</md-list-item>
 					</md-list>
 					</md-content>
+					<md-button ng-click="selectLinkText()" class="md-raised md-primary">select text</md-button>
+					<textarea id="mytextarea" ng-model="allsrclink" multiple rows="5" cols="20" style="width: 1000px;">
+					</textarea >
 			</md-content>
 		</div>
 
@@ -62,6 +66,14 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 		//console.log(('http://'+host+'/files/' + curpath +'/'+s));
 		return ('http://'+host+'/' + curpath +(curpath?'/':"")+s);
 	}
+	function setLinkTextArea(){
+		$scope.allsrclink = $scope.names.filter((x)=>(x.match('\\.')&&x.match('\\.').length>0)).map($scope.getsrc).join('\n')
+	}
+	$scope.selectLinkText = function(){
+		var txtarea = document.getElementById("mytextarea");
+		txtarea.select()
+		document.execCommand('copy');
+	}
 	var list = function(){
 		$http({
 			method: 'GET',
@@ -69,12 +81,15 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 		}).then(function successCallback(response) {
 			console.log(response.data);
 			$scope.names = response.data;
+			setLinkTextArea();
 		}, function errorCallback(response) {
 			// 请求失败执行代码
 		});
 	}
 	list();
 	var curpath = ""; 
+	$scope.allsrclink = ""
+
 	$scope.getcurpath = function(){
 		return curpath
 	}
@@ -92,8 +107,8 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 			if(response.data.length && typeof(response.data) !== "string"){
 				if(!dir)curpath = (curpath +'/')+  filename  ; 
 				$scope.names = response.data;
-				console.log(response.data);
 				$scope.id = 0;
+				setLinkTextArea()
 				return;
 			}
 			info(response.data);
