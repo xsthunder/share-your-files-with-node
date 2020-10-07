@@ -1,6 +1,6 @@
 console.log("hello nodejs");
 //const filepath = __dirname+"/files";
-const filepath = "g:/"
+const filepath = "./files"
 const port = 5000
 
 const express = require('express');

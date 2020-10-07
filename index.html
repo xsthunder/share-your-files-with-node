@@ -144,7 +144,7 @@ app.controller('siteCtrl', function($scope, $http,$mdDialog) {
 	};
 
 	$scope.openInManga = function(s){
-		window.open(`http://192.168.1.6:8080/?dirpath=${$scope.getcurpath()}/${s}`)
+		window.open(`http://${window.location.hostname}:8080/?dirpath=${$scope.getcurpath()}/${s}`)
 	}
 });
 		</script>
