@@ -107,6 +107,9 @@ export default {
       filename: this.dirpath
     }).then((res)=>{
       this.files = res.data
+      const s = ((x)=>x.substring(0, x.indexOf('.')) )
+      const n = (x)=>parseInt(s(x))
+      this.files.sort((a,b)=>n(a)>n(b))
       setTimeout(()=>{
         this.startPage = Number(this.pageInput)// in next vue tick
       }, 500)
